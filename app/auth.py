@@ -3,10 +3,12 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from app import db  # Moved db import here to avoid circular import
 from app.models import Users
 from app.utils import generate_jwt
+from flask_cors import cross_origin
 
 auth_bp = Blueprint('auth', __name__)
 
 @auth_bp.route('/signup', methods=['POST'])
+@cross_origin(origins="*")
 def signup():
     data = request.get_json()
     username = data.get('username')
@@ -24,6 +26,7 @@ def signup():
     return jsonify({"message": "User created successfully"}), 201
 
 @auth_bp.route('/login', methods=['POST'])
+@cross_origin(origins="*")
 def login():
     data = request.get_json()
     username = data.get('username')
