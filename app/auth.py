@@ -14,8 +14,10 @@ def signup():
     username = data.get('username')
     password = data.get('password')
 
+
     if not username or not password:
-        return jsonify({"message": "Username and password are required"}), 400
+        
+        return jsonify({"message": "Username and password are required"}).headers.add('Access-Control-Allow-Origin', '*'), 400
 
     hashed_password = generate_password_hash(password)
     new_user = Users(username=username, password=hashed_password)
@@ -23,7 +25,9 @@ def signup():
     db.session.add(new_user)
     db.session.commit()
 
-    return jsonify({"message": "User created successfully"}), 201
+    
+
+    return jsonify({"message": "User created successfully"}).headers.add('Access-Control-Allow-Origin', '*'), 201
 
 @auth_bp.route('/login', methods=['POST'])
 @cross_origin(origins="*")
@@ -35,7 +39,7 @@ def login():
     user = Users.query.filter_by(username=username).first()
     
     if not user or not check_password_hash(user.password, password):
-        return jsonify({"message": "Invalid username or password"}), 401
+        return jsonify({"message": "Invalid username or password"}).headers.add('Access-Control-Allow-Origin', '*'), 401
 
     token = generate_jwt(user.id)
     return jsonify({"token": token}), 200
