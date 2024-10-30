@@ -14,7 +14,6 @@ def signup():
     username = data.get('username')
     password = data.get('password')
 
-
     if not username or not password:
         
         return jsonify({"message": "Username and password are required"}).headers.add('Access-Control-Allow-Origin', '*'), 400
