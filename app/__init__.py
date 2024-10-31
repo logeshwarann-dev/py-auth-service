@@ -12,11 +12,7 @@ def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
     db.init_app(app)
-    CORS(app, 
-         resources={r"/*": {"origins": "*", 
-                            "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"], 
-                            "allow_headers": ["Content-Type", "Authorization"]}},
-         supports_credentials=True)
+    CORS(app)
 
     # Retry logic for database connection
     retries = 5
